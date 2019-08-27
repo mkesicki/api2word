@@ -1,0 +1,7 @@
+config:
+    - url: "https://api.getpostman.com/"
+    - parser: "postman"
+    - formatter: "word"
+authorization:
+    - key: "XXXX"
+    - name: "apiKey"
