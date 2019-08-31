@@ -26,6 +26,7 @@ namespace Api2Word.Config
             Authorization = new Dictionary<String, String>();
             Config = new Dictionary<String, String>();
             ReadConfig();
+            Parser = new Api2Word.Parser.Postman(Config["url"], CollectionName, Authorization);
         }
 
         public void ReadConfig() {
@@ -54,18 +55,16 @@ namespace Api2Word.Config
                     Authorization.Add(item.Children.First().Key.ToString(), item.Children.First().Value.ToString());
                 }
 
-                foreach (KeyValuePair<String, String> kvp in Config)
-                {
-                    System.Console.WriteLine("Config--{0}:{1}", kvp.Key, kvp.Value);
-                }
+                //foreach (KeyValuePair<String, String> kvp in Config)
+                //{
+                //    System.Console.WriteLine("Config--{0}:{1}", kvp.Key, kvp.Value);
+                //}
 
-                foreach (KeyValuePair<String, String> kvp in Authorization)
-                {
-                    System.Console.WriteLine("Auth--{0}:{1}", kvp.Key, kvp.Value);
-                }
+                //foreach (KeyValuePair<String, String> kvp in Authorization)
+                //{
+                //    System.Console.WriteLine("Auth--{0}:{1}", kvp.Key, kvp.Value);
+                //}
             }
-
-
         }
     }
 }
