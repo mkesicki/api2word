@@ -61,8 +61,9 @@ namespace Api2Word.Parser
     public class Header {
         public String Key { get; set; }
         public String Value { get; set; }
+        public String Name { get; set; }
+        public String Description { get; set; }
     }
-
 
     public class Request
     {
@@ -70,7 +71,16 @@ namespace Api2Word.Parser
         public List<Header> Header { get; set; }
         public Body Body { get; set; }
         public Url Url { get; set; }
-        public string Description { get; set; }
+        public String Description { get; set; }
+    }
+
+    public class Response {
+
+        public List<Header> Header { get; set; }
+        public String Name { get; set; }
+        public String Status { get; set; }
+        public Int16 Code { get; set; }
+        public String Body { get; set; }
     }
 
     public class Item2
@@ -79,7 +89,7 @@ namespace Api2Word.Parser
         public string _postman_id { get; set; }
         public ProtocolProfileBehavior ProtocolProfileBehavior { get; set; }
         public Request Request { get; set; }
-        public List<object> Response { get; set; }
+        public List<Response> Response { get; set; }
     }
 
     public class Item
@@ -100,5 +110,4 @@ namespace Api2Word.Parser
     {
         public Collection Collection { get; set; }
     }
-
 }

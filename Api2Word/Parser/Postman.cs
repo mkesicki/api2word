@@ -1,13 +1,10 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
 
 namespace Api2Word.Parser
 {
-    class Postman : IParser
+    internal class Postman : IParser
     {
         public String Name { get; set; }
         public String Id { get; set; }
@@ -19,14 +16,16 @@ namespace Api2Word.Parser
 
         private List<Endpoint> _endpoints { get; set; }
 
-        public List<Endpoint> Endpoints  {
+        public List<Endpoint> Endpoints
+        {
             get { return _endpoints; }
             set { _endpoints = new List<Endpoint>(value); }
         }
 
         public Dictionary<String, String> Authorization { get; set; }
 
-        public Postman(String url, String name, Dictionary<String, String> auth) {
+        public Postman(String url, String name, Dictionary<String, String> auth)
+        {
             _endpoints = new List<Endpoint>();
             Name = name;
             Authorization = auth;
@@ -51,11 +50,13 @@ namespace Api2Word.Parser
 
             IRestResponse response = Client.Execute(request);
 
-            RestSharp.Serialization.Json.JsonDeserializer deserializer = new RestSharp.Serialization.Json.JsonDeserializer(); 
-            CollectionList collections  = deserializer.Deserialize<CollectionList>(response);
+            RestSharp.Serialization.Json.JsonDeserializer deserializer = new RestSharp.Serialization.Json.JsonDeserializer();
+            CollectionList collections = deserializer.Deserialize<CollectionList>(response);
 
-            foreach (CollectionInfo collection in collections.Collections) {
-                if (collection.Name.Equals(Name)) {
+            foreach (CollectionInfo collection in collections.Collections)
+            {
+                if (collection.Name.Equals(Name))
+                {
                     Id = collection.Id;
                     System.Console.WriteLine("Found collection ID: {0}", Id);
                 }
@@ -71,9 +72,11 @@ namespace Api2Word.Parser
                 response = Client.Execute(request);
 
                 CollecitonDetail detail = deserializer.Deserialize<CollecitonDetail>(response);
-                System.Console.WriteLine("Collection size: {0}", detail.Collection.Item.Count);
+                System.Console.WriteLine("Number of collections' endpoints: {0}", detail.Collection.Item.Count);
                 Collection = detail.Collection;
-            } else {
+            }
+            else
+            {
                 String message = "Collection " + Name + " not found!!!";
                 throw new Exception(message);
             }
@@ -87,8 +90,8 @@ namespace Api2Word.Parser
 
             Endpoint endpoint;
 
-            foreach (Item item in Collection.Item) {
-
+            foreach (Item item in Collection.Item)
+            {
                 //foreach with enpdoints
                 foreach (Item2 item2 in item.item)
                 {
@@ -110,8 +113,9 @@ namespace Api2Word.Parser
                     }
 
                     //get headers
-                    if (item2.Request.Header != null) { 
-                        foreach ( Header header in item2.Request.Header)
+                    if (item2.Request.Header != null)
+                    {
+                        foreach (Header header in item2.Request.Header)
                         {
                             if (!endpoint.Headers.ContainsKey(header.Key))
                             {
@@ -138,7 +142,8 @@ namespace Api2Word.Parser
                             endpoint.Body = bodies;
                         }
 
-                        if (item2.Request.Body.Mode.Equals("formdata")) {
+                        if (item2.Request.Body.Mode.Equals("formdata"))
+                        {
                             List<Api2Word.Body> bodies = new List<Api2Word.Body>();
                             foreach (Formdata formdata in item2.Request.Body.Formdata)
                             {
@@ -146,18 +151,33 @@ namespace Api2Word.Parser
                             }
                             endpoint.Body = bodies;
                         }
-                    }
-                    
 
-                    //add more modes ??
+                        //add more modes ??
+                    } //body parse
+
+                    //parse responses
+                    if (item2.Response != null)
+                    {
+                        List<Api2Word.Response> responses = new List<Api2Word.Response>();
+
+                        foreach (Response response in item2.Response)
+                        {
+                            System.Console.WriteLine("Endpoint response: {0}", response.Name);
+                            responses.Add(new Api2Word.Response()
+                            {
+                                Status = response.Status,
+                                StatusCode = response.Code,
+                                Body = response.Body
+                            });
+                        }
+                        endpoint.Response = responses;
+                    }
 
                     Endpoints.Add(endpoint);
                 }
             }
 
             return Endpoints;
-
         }
     }
 }
-

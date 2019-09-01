@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace Api2Word
 {
-    class Program
+    internal class Program
     {
-        private static String configPath , collectionName, formatterName, collectionType;
+        private static String configPath, collectionName, formatterName, collectionType;
 
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
-            if (args.Length < 3) {
+            if (args.Length < 3)
+            {
                 System.Console.WriteLine("You need to pass 3 parameters: \n" +
                     "collection type" +
                     "path to config file \n" +
@@ -26,8 +25,9 @@ namespace Api2Word
             collectionType = args[0].ToLower();
             configPath = args[1];
             collectionName = args[2];
-            
-            if (!File.Exists(configPath)) {
+
+            if (!File.Exists(configPath))
+            {
                 System.Console.WriteLine("Invalid config file path.");
 
                 return 1;

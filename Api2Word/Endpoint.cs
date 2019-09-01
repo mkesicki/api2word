@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Api2Word.Parser;
+using System;
 using System.Collections.Generic;
-using Api2Word.Parser;
 
 namespace Api2Word
 {
@@ -11,10 +11,9 @@ namespace Api2Word
         public String Url { get; set; }
         public String Method { get; set; }
         public List<Body> Body { get; set; }
-        public String Response { get; set; }
+        public List<Response> Response { get; set; }
         public Dictionary<String, String> Headers { get; set; }
         public Dictionary<String, String> QueryParams { get; set; }
-        public Int16 StatusCode { get; set; }
 
         public Endpoint()
         {
@@ -24,7 +23,15 @@ namespace Api2Word
         }
     }
 
-    public class Body {
+    public class Response
+    {
+        public Int16 StatusCode { get; set; }
+        public String Status { get; set; }
+        public String Body { get; set; }
+    }
+
+    public class Body
+    {
         public String BodyType { get; set; }
         public String Key { get; set; }
         public String Value { get; set; }
