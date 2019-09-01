@@ -27,9 +27,6 @@ namespace Api2Word
             configPath = args[1];
             collectionName = args[2];
             
-
-            System.Console.WriteLine("Passed args: {0}, {1}, {2}", collectionType, configPath, collectionName);
-
             if (!File.Exists(configPath)) {
                 System.Console.WriteLine("Invalid config file path.");
 
@@ -41,6 +38,8 @@ namespace Api2Word
             String objectType = "Api2Word.Config." + collectionType;
             Type type = Type.GetType(objectType);
             IConfig config = (IConfig)Activator.CreateInstance(type, configPath, collectionName);
+            IParser parser = config.Parser;
+            List<Endpoint> endpoints = parser.GetEndpoints();
 
             return 0;
         }

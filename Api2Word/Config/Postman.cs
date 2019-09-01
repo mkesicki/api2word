@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YamlDotNet.RepresentationModel;
 using System.IO;
 
@@ -54,16 +52,6 @@ namespace Api2Word.Config
                 {
                     Authorization.Add(item.Children.First().Key.ToString(), item.Children.First().Value.ToString());
                 }
-
-                //foreach (KeyValuePair<String, String> kvp in Config)
-                //{
-                //    System.Console.WriteLine("Config--{0}:{1}", kvp.Key, kvp.Value);
-                //}
-
-                //foreach (KeyValuePair<String, String> kvp in Authorization)
-                //{
-                //    System.Console.WriteLine("Auth--{0}:{1}", kvp.Key, kvp.Value);
-                //}
             }
         }
     }

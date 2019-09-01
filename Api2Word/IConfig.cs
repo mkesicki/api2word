@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Api2Word
 {
@@ -18,10 +15,6 @@ namespace Api2Word
         String Url { get; set; }
 
         void ReadConfig();
-       // void SetParser();
-//void SetFormatter();
-       // IFormatter GetFormatter();
-        //IParser GetParser();
 
     }
 }
