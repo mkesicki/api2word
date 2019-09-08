@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using YamlDotNet.RepresentationModel;
-using System.IO;
 
 namespace Api2Word.Config
 {
-   class Postman : IConfig
+    internal class Postman : IConfig
     {
         public String Url { get; set; }
         public IParser Parser { get; set; }
@@ -18,17 +18,19 @@ namespace Api2Word.Config
         public String Path { get; set; }
         public String CollectionName { get; set; }
 
-        public Postman(String path, String name) {
+        public Postman(String path, String name)
+        {
             Path = path;
             CollectionName = name;
             Authorization = new Dictionary<String, String>();
             Config = new Dictionary<String, String>();
             ReadConfig();
-            Parser = new Api2Word.Parser.Postman(Config["url"], CollectionName, Authorization);
+            Parser = new Parser.Postman(Config["url"], CollectionName, Authorization);
+            Formatter = new Formatter.Word(CollectionName);
         }
 
-        public void ReadConfig() {
-
+        public void ReadConfig()
+        {
             System.Console.WriteLine("Read Config File: \"{0}\"", Path);
 
             //read YAML

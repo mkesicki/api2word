@@ -13,7 +13,7 @@ namespace Api2Word
         {
             if (args.Length < 3)
             {
-                System.Console.WriteLine("You need to pass 3 parameters: \n" +
+                Console.WriteLine("You need to pass 3 parameters: \n" +
                     "collection type" +
                     "path to config file \n" +
                     "name of Collection to parse \n"
@@ -28,7 +28,7 @@ namespace Api2Word
 
             if (!File.Exists(configPath))
             {
-                System.Console.WriteLine("Invalid config file path.");
+                Console.WriteLine("Invalid config file path.");
 
                 return 1;
             }
@@ -40,6 +40,15 @@ namespace Api2Word
             IConfig config = (IConfig)Activator.CreateInstance(type, configPath, collectionName);
             IParser parser = config.Parser;
             List<Endpoint> endpoints = parser.GetEndpoints();
+
+            IFormatter formatter = config.Formatter;
+
+            foreach (Endpoint endpoint in endpoints)
+            {
+                formatter.ParseEndpoint(endpoint);
+            }
+
+            formatter.SaveFile();
 
             return 0;
         }
