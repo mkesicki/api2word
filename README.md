@@ -6,20 +6,23 @@ Feel free to play, change, complain and improve ... please note this script is a
 
 ## Why Word
 
-I needed to store documentation from Postman in Word and after a lot of copy & pasting I decided ... never again :)
+I needed (for work) to store documentation from Postman in Word and after a lot of copy & pasting I decided ... never again :)
 
-Yes, I know Postman team is working to prepare export of docs to PDF and there are orther scripts which do similar thigs.
+Yes, I know, Postman team is working to prepare export of docs to PDF and there are other scripts which do similar things.
 
 ## Usage 
+```
 $ ./Api2Word.exe
 You need to pass 3 parameters:
 collection type
 path to config file
 name of Collection to parse
-
+```
+```
 $ ./Api2Word.exe postman "..\..\config\config.yaml" "DocuWare REST Samples" Word
-
+```
 ## Example response
+```
 Read Config File: "..\..\config\config.yaml"
 Get collection: DocuWare REST Samples
 Found collection ID: 00a42a46-d8b3-4437-996a-e8a0443ffeca
@@ -69,5 +72,5 @@ Parse endpoint: Create a new document in a file cabinet
 Parse endpoint: Upload  a single pdf document
 Endpoint response: Response
 Save file: XXX\results\DocuWare REST Samples.docx
-
+```
 
