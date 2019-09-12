@@ -129,11 +129,13 @@ namespace Api2Word.Parser
                     {
                         if (item2.Request.Body.Mode.Equals("raw"))
                         {
+                            endpoint.BodyMode = "raw";
                             endpoint.Body.Add(new Api2Word.Body(item2.Request.Body.Raw));
                         }
 
                         if (item2.Request.Body.Mode.Equals("urlencoded"))
                         {
+                            endpoint.BodyMode = "urlencoded";
                             List<Api2Word.Body> bodies = new List<Api2Word.Body>();
                             foreach (Urlencoded urlencoded in item2.Request.Body.Urlencoded)
                             {
@@ -144,6 +146,7 @@ namespace Api2Word.Parser
 
                         if (item2.Request.Body.Mode.Equals("formdata"))
                         {
+                            endpoint.BodyMode = "formdata";
                             List<Api2Word.Body> bodies = new List<Api2Word.Body>();
                             foreach (Formdata formdata in item2.Request.Body.Formdata)
                             {
@@ -167,7 +170,8 @@ namespace Api2Word.Parser
                             {
                                 Status = response.Status,
                                 StatusCode = response.Code,
-                                Body = response.Body
+                                Body = response.Body,
+                                Name = response.Name
                             });
                         }
                         endpoint.Response = responses;

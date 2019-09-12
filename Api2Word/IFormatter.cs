@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Api2Word
 {
@@ -8,17 +9,13 @@ namespace Api2Word
 
         String Name { get; set; }
 
-        void AddTable(Endpoint endpoint);
-
-        void AddTableRow(Endpoint endpoint);
+        Object AddTable(int rows, int columns);
 
         void AddDescription(Endpoint endpoint);
 
         void AddMethod(Endpoint endpoint);
 
         void AddBody(Endpoint endpoint);
-
-        void AddSection(Endpoint endpoint);
 
         void AddRequest(Endpoint endpoint);
 
@@ -31,6 +28,14 @@ namespace Api2Word
         void AddDocumentTitle();
 
         void AddTitle(Endpoint endpoint);
+
+        void AddUrl(Endpoint endpoint);
+
+        void ParseHeaders(Dictionary<String, String> headers);
+
+        void ParseQueryParams(Dictionary<String, String> queryParameters);
+
+        void ParseBody(String type, List<Body> bodies);
 
         void SaveFile();
 

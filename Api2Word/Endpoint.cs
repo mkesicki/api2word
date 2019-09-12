@@ -10,6 +10,7 @@ namespace Api2Word
         public String Description { get; set; }
         public String Url { get; set; }
         public String Method { get; set; }
+        public String BodyMode { get; set; }
         public List<Body> Body { get; set; }
         public List<Response> Response { get; set; }
         public Dictionary<String, String> Headers { get; set; }
@@ -28,6 +29,7 @@ namespace Api2Word
         public Int16 StatusCode { get; set; }
         public String Status { get; set; }
         public String Body { get; set; }
+        public String Name { get; set; }
     }
 
     public class Body
