@@ -13,15 +13,7 @@ namespace Api2Word
 
         void AddDescription(Endpoint endpoint);
 
-        void AddMethod(Endpoint endpoint);
-
         void AddBody(Endpoint endpoint);
-
-        void AddRequest(Endpoint endpoint);
-
-        void AddResponse(Endpoint endpoint);
-
-        void AddStatusCode(Endpoint endpoint);
 
         void ParseEndpoint(Endpoint endpoint);
 

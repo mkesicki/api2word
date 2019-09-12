@@ -44,26 +44,6 @@ namespace Api2Word.Formatter
             Document.InsertParagraph("").InsertTableAfterSelf(table);
         }
 
-        public void AddMethod(Endpoint endpoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IFormatter.AddRequest(Endpoint endpoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IFormatter.AddResponse(Endpoint endpoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IFormatter.AddStatusCode(Endpoint endpoint)
-        {
-            throw new NotImplementedException();
-        }
-
         public Object AddTable(int rows, int columns)
         {
             Table table = Document.AddTable(rows, columns);
