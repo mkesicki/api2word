@@ -14,7 +14,7 @@ namespace Api2Word
             if (args.Length < 3)
             {
                 Console.WriteLine("You need to pass 3 parameters: \n" +
-                    "collection type" +
+                    "collection type\n" +
                     "path to config file \n" +
                     "name of Collection to parse \n"
                 );
