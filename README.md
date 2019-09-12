@@ -10,6 +10,11 @@ I needed (for work) to store documentation from Postman in Word and after a lot 
 
 Yes, I know, Postman team is working to prepare export of docs to PDF and there are other scripts which do similar things.
 
+## Used Packages
+- DocX
+- RestSharp
+- YamlDotNet
+
 ## Usage 
 ```
 $ ./Api2Word.exe
