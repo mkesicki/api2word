@@ -18,9 +18,9 @@ namespace Api2Word.Formatter
 
         private DocX Document;
 
-        public Word(String collectionName)
+        public Word(String collectionName, Dictionary<String, String> styles)
         {
-            Styler = new Styler.Word();
+            Styler = new Styler.Word(styles);
             Name = collectionName;
             OpenFile(path, Name);
         }

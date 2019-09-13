@@ -14,6 +14,7 @@ namespace Api2Word.Config
 
         public Dictionary<String, String> Authorization { get; set; }
         public Dictionary<String, String> Config { get; set; }
+        public Dictionary<String, String> Styles { get; set; }
 
         public String Path { get; set; }
         public String CollectionName { get; set; }
@@ -24,14 +25,15 @@ namespace Api2Word.Config
             CollectionName = name;
             Authorization = new Dictionary<String, String>();
             Config = new Dictionary<String, String>();
+            Styles = new Dictionary<String, String>();
             ReadConfig();
             Parser = new Parser.Postman(Config["url"], CollectionName, Authorization);
-            Formatter = new Formatter.Word(CollectionName);
+            Formatter = new Formatter.Word(CollectionName, Styles);
         }
 
         public void ReadConfig()
         {
-            System.Console.WriteLine("Read Config File: \"{0}\"", Path);
+            Console.WriteLine("Read Config File: \"{0}\"", Path);
 
             //read YAML
             using (var reader = new StreamReader(Path))
@@ -53,6 +55,12 @@ namespace Api2Word.Config
                 foreach (YamlMappingNode item in items)
                 {
                     Authorization.Add(item.Children.First().Key.ToString(), item.Children.First().Value.ToString());
+                }
+
+                items = (YamlSequenceNode)mapping.Children[new YamlScalarNode("styles")];
+                foreach (YamlMappingNode item in items)
+                {
+                    Styles.Add(item.Children.First().Key.ToString(), item.Children.First().Value.ToString());
                 }
             }
         }

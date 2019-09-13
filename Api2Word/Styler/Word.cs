@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xceed.Words.NET;
 
 namespace Api2Word.Styler
@@ -75,7 +76,7 @@ namespace Api2Word.Styler
         {
             if (styleName.Equals(""))
             {
-                styleName = "LightListAccent1";
+                styleName = Table;
             }
             Table table = (Table)obj;
             Enum.TryParse(styleName, out TableDesign style);
@@ -115,20 +116,20 @@ namespace Api2Word.Styler
             SetStyle(obj, ResponseName);
         }
 
-        public Word()
+        public Word(Dictionary<String, String> styles)
         {
             //load from yaml configuration ?
-            Title = "Title";
-            EndpointTitle = "Heading1";
-            Method = "Orange";
-            Description = "Default";
-            Table = "LightListAccent1";
-            HeaderTitle = "Heading2";
-            QueryTitle = "Heading2";
-            BodyTitle = "Heading2";
-            ResponseTitle = "Heading2";
-            ResponseName = "Heading3";
-            Table1Row = "TableGrid";
+            Title = (styles.ContainsKey("Title")) ? styles["Title"] : "Title";
+            EndpointTitle = (styles.ContainsKey("EndpointTitle")) ? styles["EndpointTitle"] : "Heading1";
+            Method = (styles.ContainsKey("Method")) ? styles["Method"] : "Orange";
+            Description = (styles.ContainsKey("Description")) ? styles["Description"] : "Default";
+            Table = (styles.ContainsKey("Table")) ? styles["Table"] : "LightListAccent1";
+            HeaderTitle = (styles.ContainsKey("HeaderTitle")) ? styles["HeaderTitle"] : "Heading2";
+            QueryTitle = (styles.ContainsKey("QueryTitle")) ? styles["QueryTitle"] : "Heading2";
+            BodyTitle = (styles.ContainsKey("BodyTitle")) ? styles["BodyTitle"] : "Heading2";
+            ResponseTitle = (styles.ContainsKey("ResponseTitle")) ? styles["ResponseTitle"] : "Heading2";
+            ResponseName = (styles.ContainsKey("ResponseName")) ? styles["ResponseName"] : "Heading3";
+            Table1Row = (styles.ContainsKey("Table1Row")) ? styles["Table1Row"] : "TableGrid";
         }
     }
 }

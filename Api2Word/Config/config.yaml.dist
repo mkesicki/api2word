@@ -5,3 +5,15 @@ config:
 authorization:
     - key: "XXXX"
     - name: "apiKey"
+styles:
+    - Title: "Title"
+    - EndpointTitle: "Heading1"
+    - Method: "Orange"
+    - Description: "Default"
+    - Table: "LightListAccent1"
+    - HeaderTitle: "Heading2"
+    - QueryTitle: "Heading2"
+    - BodyTitle: "Heading2"
+    - ResponseTitle: "Heading2"
+    - ResponseName: "Heading3"
+    - Table1Row: "TableGrid"
