@@ -16,6 +16,8 @@ namespace Api2Word
 
         String Table { get; set; }
 
+        String Table1Row { get; set; }
+
         String HeaderTitle { get; set; }
 
         String QueryTitle { get; set; }

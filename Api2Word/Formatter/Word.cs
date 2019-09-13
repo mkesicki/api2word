@@ -132,6 +132,7 @@ namespace Api2Word.Formatter
             {
                 table = (Table)AddTable(bodies.Count, 1);
                 table.Rows[0].Cells[0].Paragraphs[0].Append(bodies[0].Value);
+                Styler.SetTableStyle(table, Styler.Table1Row);
             }
             else
             {
@@ -157,8 +158,9 @@ namespace Api2Word.Formatter
                     }
                     i++;
                 }
+                Styler.SetTableStyle(table);
             }
-            Styler.SetTableStyle(table);
+
             Document.InsertParagraph("").InsertTableAfterSelf(table);
         }
 
@@ -167,10 +169,11 @@ namespace Api2Word.Formatter
             foreach (Response response in responses)
             {
                 Styler.SetResponseNameStyle(Document.InsertParagraph(response.Name + " [" + response.Status + "]"));
+                Document.InsertParagraph("");
                 Document.InsertParagraph("Response Status Code: " + response.StatusCode);
                 Table table = (Table)AddTable(1, 1);
                 table.Rows[0].Cells[0].Paragraphs[0].Append(response.Body);
-                Styler.SetTableStyle(table);
+                Styler.SetTableStyle(table, Styler.Table1Row);
                 Document.InsertParagraph("").InsertTableAfterSelf(table);
             }
         }

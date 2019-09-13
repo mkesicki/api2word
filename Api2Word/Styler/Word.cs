@@ -11,6 +11,7 @@ namespace Api2Word.Styler
         public String URL { get; set; }
         public String Description { get; set; }
         public String Table { get; set; }
+        public String Table1Row { get; set; }
         public String HeaderTitle { get; set; }
         public String QueryTitle { get; set; }
         public string BodyTitle { get; set; }
@@ -70,11 +71,17 @@ namespace Api2Word.Styler
             obj = paragraph;
         }
 
-        public void SetTableStyle(object obj, String styleName = "LightShading")
+        public void SetTableStyle(object obj, String styleName = "LightListAccent1")
         {
+            if (styleName.Equals(""))
+            {
+                styleName = "LightListAccent1";
+            }
             Table table = (Table)obj;
             Enum.TryParse(styleName, out TableDesign style);
+
             table.Design = style;
+
             obj = table;
         }
 
@@ -115,12 +122,13 @@ namespace Api2Word.Styler
             EndpointTitle = "Heading1";
             Method = "Orange";
             Description = "Default";
-            Table = "LightShading";
+            Table = "LightListAccent1";
             HeaderTitle = "Heading2";
             QueryTitle = "Heading2";
             BodyTitle = "Heading2";
             ResponseTitle = "Heading2";
             ResponseName = "Heading3";
+            Table1Row = "TableGrid";
         }
     }
 }
