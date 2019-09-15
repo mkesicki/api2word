@@ -178,6 +178,50 @@ namespace Api2Word.Formatter
             }
         }
 
+        public void GenerateCurlExampleRequest(Endpoint endpoint)
+        {
+            String curl = "curl -X " + endpoint.Method.ToUpper() + " \\\n";
+            String bodyParams = "";
+            if (endpoint.BodyMode.Equals("urlencoded"))
+            {
+                List<String> urlencodedParams = new List<String>();
+                foreach (Body body in endpoint.Body)
+                {
+                    urlencodedParams.Add(String.Format("{0}={1}", body.Key, body.Value));
+                }
+
+                bodyParams = String.Format(" -d \"{0}\"", String.Join("&", urlencodedParams));
+            }
+            else if (endpoint.BodyMode.Equals("formdata"))
+            {
+                foreach (Body body in endpoint.Body)
+                {
+                    bodyParams = bodyParams + String.Format(" -F \"{0}={1}\" \\\n", body.Key, body.Value);
+                }
+            }
+            else if (endpoint.BodyMode.Equals("raw"))
+            {
+                bodyParams = bodyParams + String.Format(" -d '{0}' \\\n", endpoint.Body[0].Value);
+            }
+
+            foreach (KeyValuePair<String, String> kvp in endpoint.Headers)
+            {
+                curl = curl + String.Format(" -H \"{0}:{1}\" \\\n", kvp.Key, kvp.Value);
+            }
+
+            curl = curl + bodyParams;
+
+            curl = curl + String.Format(" \"{0}\"", endpoint.Url);
+
+            //Console.WriteLine("Generated CURL: " + curl + "\n\n\n");
+
+            Styler.SetBodyTitleStyle(Document.InsertParagraph("Curl Example Request"));
+            Table table = (Table)AddTable(1, 1);
+            table.Rows[0].Cells[0].Paragraphs[0].Append(curl);
+            Styler.SetTableStyle(table, Styler.Table1Row);
+            Document.InsertParagraph("").InsertTableAfterSelf(table);
+        }
+
         public void ParseEndpoint(Endpoint endpoint)
         {
             AddTitle(endpoint);
@@ -199,6 +243,9 @@ namespace Api2Word.Formatter
                 Styler.SetBodyTitleStyle(Document.InsertParagraph("Body [" + endpoint.BodyMode + "]"));
                 ParseBody(endpoint.BodyMode, endpoint.Body);
             }
+
+            //generate CURL example
+            GenerateCurlExampleRequest(endpoint);
 
             if (endpoint.Response.Count > 0)
             {

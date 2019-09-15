@@ -21,6 +21,7 @@ namespace Api2Word
             Headers = new Dictionary<String, String>();
             QueryParams = new Dictionary<String, String>();
             Body = new List<Body>();
+            BodyMode = "";
         }
     }
 

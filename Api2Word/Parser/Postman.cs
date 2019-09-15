@@ -42,7 +42,7 @@ namespace Api2Word.Parser
 
         public IRestResponse GetCollection()
         {
-            System.Console.WriteLine("Get collection: {0}", Name);
+            Console.WriteLine("Get collection: {0}", Name);
 
             RestRequest request = new RestRequest("collections", Method.GET);
             request.AddHeader("Content-Type", "application/json");
@@ -58,13 +58,13 @@ namespace Api2Word.Parser
                 if (collection.Name.Equals(Name))
                 {
                     Id = collection.Id;
-                    System.Console.WriteLine("Found collection ID: {0}", Id);
+                    Console.WriteLine("Found collection ID: {0}", Id);
                 }
             }
 
             if (Id != null)
             {
-                System.Console.WriteLine("Search for collection with id: {0}", Id);
+                Console.WriteLine("Search for collection with id: {0}", Id);
 
                 request = new RestRequest("collections/{id}");
                 request.AddUrlSegment("id", Id);
@@ -72,7 +72,7 @@ namespace Api2Word.Parser
                 response = Client.Execute(request);
 
                 CollecitonDetail detail = deserializer.Deserialize<CollecitonDetail>(response);
-                System.Console.WriteLine("Number of collections' endpoints: {0}", detail.Collection.Item.Count);
+                Console.WriteLine("Number of collections' endpoints: {0}", detail.Collection.Item.Count);
                 Collection = detail.Collection;
             }
             else
@@ -86,7 +86,7 @@ namespace Api2Word.Parser
 
         public List<Endpoint> GetEndpoints()
         {
-            System.Console.WriteLine("Get list of endpoints");
+            Console.WriteLine("Get list of endpoints");
 
             Endpoint endpoint;
 
@@ -97,7 +97,7 @@ namespace Api2Word.Parser
                 {
                     endpoint = new Endpoint();
 
-                    System.Console.WriteLine("Parse endpoint: {0}", item2.Name);
+                    Console.WriteLine("Parse endpoint: {0}", item2.Name);
                     endpoint.Title = item2.Name;
                     endpoint.Method = item2.Request.Method;
                     endpoint.Description = item2.Request.Description;
@@ -165,7 +165,7 @@ namespace Api2Word.Parser
 
                         foreach (Response response in item2.Response)
                         {
-                            System.Console.WriteLine("Endpoint response: {0}", response.Name);
+                            Console.WriteLine("Endpoint response: {0}", response.Name);
                             responses.Add(new Api2Word.Response()
                             {
                                 Status = response.Status,
