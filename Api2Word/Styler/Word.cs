@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Xceed.Words.NET;
 
@@ -79,8 +79,8 @@ namespace Api2Word.Styler
                 styleName = Table;
             }
             Table table = (Table)obj;
-            Enum.TryParse(styleName, out TableDesign style);
-
+            TableDesign style;
+            Enum.TryParse(styleName, out style);
             table.Design = style;
 
             obj = table;
