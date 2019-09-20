@@ -63,6 +63,8 @@
     <Compile Include="IStyler.cs" />
     <Compile Include="Parser\CollectionInfo.cs" />
     <Compile Include="Parser\CollectionDetail.cs" />
+    <Compile Include="Parser\Env.cs" />
+    <Compile Include="Parser\EnvInfo.cs" />
     <Compile Include="Parser\Postman.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

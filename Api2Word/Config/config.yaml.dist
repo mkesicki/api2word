@@ -17,3 +17,9 @@ styles:
     - ResponseTitle: "Heading2"
     - ResponseName: "Heading3"
     - Table1Row: "TableGrid"
+environment: "Postman"
+exludedEnvVariables:
+    - apiKey
+    - clientId
+    - clientSecret
+    - accessToken

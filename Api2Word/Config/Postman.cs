@@ -15,8 +15,10 @@ namespace Api2Word.Config
         public Dictionary<String, String> Authorization { get; set; }
         public Dictionary<String, String> Config { get; set; }
         public Dictionary<String, String> Styles { get; set; }
+        public List<String> BlackList { get; set; }
 
         public String Path { get; set; }
+        public String Env { get; set; }
         public String CollectionName { get; set; }
 
         public Postman(String path, String name)
@@ -26,8 +28,9 @@ namespace Api2Word.Config
             Authorization = new Dictionary<String, String>();
             Config = new Dictionary<String, String>();
             Styles = new Dictionary<String, String>();
+            BlackList = new List<string>();
             ReadConfig();
-            Parser = new Parser.Postman(Config["url"], CollectionName, Authorization);
+            Parser = new Parser.Postman(Config["url"], CollectionName, Authorization, Env, BlackList);
             Formatter = new Formatter.Word(CollectionName, Styles);
         }
 
@@ -61,6 +64,20 @@ namespace Api2Word.Config
                 foreach (YamlMappingNode item in items)
                 {
                     Styles.Add(item.Children.First().Key.ToString(), item.Children.First().Value.ToString());
+                }
+
+                if (mapping.Children.ContainsKey("environment"))
+                {
+                    var node = (YamlScalarNode)mapping.Children[new YamlScalarNode("environment")];
+                    Env = node.ToString();
+                    if (mapping.Children.ContainsKey("exludedEnvVariables"))
+                    {
+                        items = (YamlSequenceNode)mapping.Children[new YamlScalarNode("exludedEnvVariables")];
+                        foreach (YamlScalarNode item in items)
+                        {
+                            BlackList.Add(item.ToString());
+                        }
+                    }
                 }
             }
         }

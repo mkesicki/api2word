@@ -16,6 +16,10 @@ namespace Api2Word.Parser
 
         private List<Endpoint> _endpoints { get; set; }
 
+        private String Env { get; set; }
+
+        private List<String> BlackList;
+
         public List<Endpoint> Endpoints
         {
             get { return _endpoints; }
@@ -24,13 +28,15 @@ namespace Api2Word.Parser
 
         public Dictionary<String, String> Authorization { get; set; }
 
-        public Postman(String url, String name, Dictionary<String, String> auth)
+        public Postman(String url, String name, Dictionary<String, String> auth, String env, List<String> blacklist)
         {
             _endpoints = new List<Endpoint>();
             Name = name;
             Authorization = auth;
             Url = url;
             Client = new RestClient(Url);
+            Env = env;
+            BlackList = blacklist;
 
             GetCollection();
         }
@@ -64,12 +70,55 @@ namespace Api2Word.Parser
 
             if (Id != null)
             {
-                Console.WriteLine("Search for collection with id: {0}", Id);
+                Console.WriteLine("Get collection by id: {0}", Id);
 
                 request = new RestRequest("collections/{id}");
                 request.AddUrlSegment("id", Id);
                 Authorize(request);
                 response = Client.Execute(request);
+
+                //parse environment
+                if (Env != null && Env.Equals("") == false)
+                {
+                    Console.WriteLine("Get Environment: " + Env);
+                    RestRequest envRequest = new RestRequest("environments");
+                    Authorize(envRequest);
+                    IRestResponse envResponse = Client.Execute(envRequest);
+
+                    deserializer = new RestSharp.Serialization.Json.JsonDeserializer();
+                    EnvList envs = deserializer.Deserialize<EnvList>(envResponse);
+                    String EnvId = "";
+
+                    foreach (EnvInfo env in envs.Environments)
+                    {
+                        if (env.Name.Equals(Env))
+                        {
+                            EnvId = env.Id;
+                            Console.WriteLine("Found environment ID: {0}", EnvId);
+
+                            break;
+                        }
+                    }
+
+                    if (!EnvId.Equals(""))
+                    {
+                        envRequest = new RestRequest("environments/{id}");
+                        envRequest.AddUrlSegment("id", EnvId);
+                        Authorize(envRequest);
+                        envResponse = Client.Execute(envRequest);
+                        EnvironmentBody envBody = deserializer.Deserialize<EnvironmentBody>(envResponse);
+
+                        foreach (Value value in envBody.Environment.Values)
+                        {
+                            if (!BlackList.Contains(value.Key))
+                            {
+                                Console.WriteLine("Parse environment value: " + value.Key + " [" + value.value + "]");
+
+                                response.Content = response.Content.Replace("{{" + value.Key + "}}", value.value);
+                            }
+                        }
+                    }
+                }
 
                 CollecitonDetail detail = deserializer.Deserialize<CollecitonDetail>(response);
                 Console.WriteLine("Number of collections' endpoints: {0}", detail.Collection.Item.Count);

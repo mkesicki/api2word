@@ -141,6 +141,7 @@ namespace Api2Word.Formatter
                 table.Rows[0].Cells[0].Paragraphs[0].Append("Name").Bold();
                 table.Rows[0].Cells[1].Paragraphs[0].Append("Value").Bold();
                 table.Rows[0].Cells[2].Paragraphs[0].Append("Type").Bold();
+
                 if (type.Equals("urlencoded"))
                 {
                     table.Rows[0].Cells[3].Paragraphs[0].Append("Description").Bold();
@@ -152,6 +153,7 @@ namespace Api2Word.Formatter
                     table.Rows[i].Cells[0].Paragraphs[0].Append(body.Key);
                     table.Rows[i].Cells[1].Paragraphs[0].Append(body.Value);
                     table.Rows[i].Cells[2].Paragraphs[0].Append(body.Type);
+
                     if (type.Equals("urlencoded"))
                     {
                         table.Rows[i].Cells[3].Paragraphs[0].Append(body.Description);
