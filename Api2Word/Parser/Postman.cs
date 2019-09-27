@@ -137,100 +137,116 @@ namespace Api2Word.Parser
         {
             Console.WriteLine("Get list of endpoints");
 
-            Endpoint endpoint;
+            // Endpoint endpoint = new Endpoint(); ;
 
             foreach (Item item in Collection.Item)
             {
                 //foreach with enpdoints
-                foreach (Item2 item2 in item.item)
+
+                Console.WriteLine("Parse endpoint: {0}", item.Name);
+
+                if (item.item != null && item.item.Count > 0)
                 {
-                    endpoint = new Endpoint();
-
-                    Console.WriteLine("Parse endpoint: {0}", item2.Name);
-                    endpoint.Title = item2.Name;
-                    endpoint.Method = item2.Request.Method;
-                    endpoint.Description = item2.Request.Description;
-                    endpoint.Url = item2.Request.Url.Raw;
-
-                    //get query params
-                    if (item2.Request.Url.Query != null)
+                    foreach (Item item2 in item.item)
                     {
-                        foreach (Query query in item2.Request.Url.Query)
-                        {
-                            endpoint.QueryParams.Add(query.Key, query.Value);
-                        }
+                        Endpoints.Add(ParseItem(item2));
                     }
-
-                    //get headers
-                    if (item2.Request.Header != null)
-                    {
-                        foreach (Header header in item2.Request.Header)
-                        {
-                            if (!endpoint.Headers.ContainsKey(header.Key))
-                            {
-                                endpoint.Headers.Add(header.Key, header.Value);
-                            }
-                        }
-                    }
-
-                    //parse body
-                    if (item2.Request.Body != null)
-                    {
-                        if (item2.Request.Body.Mode.Equals("raw"))
-                        {
-                            endpoint.BodyMode = "raw";
-                            endpoint.Body.Add(new Api2Word.Body(item2.Request.Body.Raw));
-                        }
-
-                        if (item2.Request.Body.Mode.Equals("urlencoded"))
-                        {
-                            endpoint.BodyMode = "urlencoded";
-                            List<Api2Word.Body> bodies = new List<Api2Word.Body>();
-                            foreach (Urlencoded urlencoded in item2.Request.Body.Urlencoded)
-                            {
-                                bodies.Add(new Api2Word.Body(urlencoded));
-                            }
-                            endpoint.Body = bodies;
-                        }
-
-                        if (item2.Request.Body.Mode.Equals("formdata"))
-                        {
-                            endpoint.BodyMode = "formdata";
-                            List<Api2Word.Body> bodies = new List<Api2Word.Body>();
-                            foreach (Formdata formdata in item2.Request.Body.Formdata)
-                            {
-                                bodies.Add(new Api2Word.Body(formdata));
-                            }
-                            endpoint.Body = bodies;
-                        }
-
-                        //add more modes ??
-                    } //body parse
-
-                    //parse responses
-                    if (item2.Response != null)
-                    {
-                        List<Api2Word.Response> responses = new List<Api2Word.Response>();
-
-                        foreach (Response response in item2.Response)
-                        {
-                            Console.WriteLine("Endpoint response: {0}", response.Name);
-                            responses.Add(new Api2Word.Response()
-                            {
-                                Status = response.Status,
-                                StatusCode = response.Code,
-                                Body = response.Body,
-                                Name = response.Name
-                            });
-                        }
-                        endpoint.Response = responses;
-                    }
-
-                    Endpoints.Add(endpoint);
                 }
+                else
+                {
+                    Endpoints.Add(ParseItem(item));
+                }
+
+                //Endpoint.add()
             }
 
             return Endpoints;
+        }
+
+        public Endpoint ParseItem(Item item)
+        {
+            Endpoint endpoint = new Endpoint();
+
+            endpoint.Title = item.Name;
+            endpoint.Method = item.Request.Method;
+            endpoint.Description = item.Request.Description;
+            endpoint.Url = item.Request.Url.Raw;
+
+            //get query params
+            if (item.Request.Url.Query != null)
+            {
+                foreach (Query query in item.Request.Url.Query)
+                {
+                    endpoint.QueryParams.Add(query.Key, query.Value);
+                }
+            }
+
+            //get headers
+            if (item.Request.Header != null)
+            {
+                foreach (Header header in item.Request.Header)
+                {
+                    if (!endpoint.Headers.ContainsKey(header.Key))
+                    {
+                        endpoint.Headers.Add(header.Key, header.Value);
+                    }
+                }
+            }
+
+            //parse body
+            if (item.Request.Body != null)
+            {
+                if (item.Request.Body.Mode.Equals("raw"))
+                {
+                    endpoint.BodyMode = "raw";
+                    endpoint.Body.Add(new Api2Word.Body(item.Request.Body.Raw));
+                }
+
+                if (item.Request.Body.Mode.Equals("urlencoded"))
+                {
+                    endpoint.BodyMode = "urlencoded";
+                    List<Api2Word.Body> bodies = new List<Api2Word.Body>();
+                    foreach (Urlencoded urlencoded in item.Request.Body.Urlencoded)
+                    {
+                        bodies.Add(new Api2Word.Body(urlencoded));
+                    }
+                    endpoint.Body = bodies;
+                }
+
+                if (item.Request.Body.Mode.Equals("formdata"))
+                {
+                    endpoint.BodyMode = "formdata";
+                    List<Api2Word.Body> bodies = new List<Api2Word.Body>();
+                    foreach (Formdata formdata in item.Request.Body.Formdata)
+                    {
+                        bodies.Add(new Api2Word.Body(formdata));
+                    }
+                    endpoint.Body = bodies;
+                }
+
+                //add more modes ??
+            } //body parse
+
+            //parse responses
+            if (item.Response != null)
+            {
+                List<Api2Word.Response> responses = new List<Api2Word.Response>();
+
+                foreach (Response response in item.Response)
+                {
+                    Console.WriteLine("Endpoint response: {0}", response.Name);
+                    responses.Add(new Api2Word.Response()
+                    {
+                        Status = response.Status,
+                        StatusCode = response.Code,
+                        Body = response.Body,
+                        Name = response.Name
+                    });
+                }
+                endpoint.Response = responses;
+            }
+
+            return endpoint;
         }
     }
 }

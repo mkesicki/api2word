@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Api2Word.Parser
 {
@@ -46,8 +46,9 @@ namespace Api2Word.Parser
 
     public class Query
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public String Key { get; set; }
+        public String Value { get; set; }
+        public String Description { get; set; }
     }
 
     public class Url
@@ -58,7 +59,8 @@ namespace Api2Word.Parser
         public List<Query> Query { get; set; }
     }
 
-    public class Header {
+    public class Header
+    {
         public String Key { get; set; }
         public String Value { get; set; }
         public String Name { get; set; }
@@ -74,8 +76,8 @@ namespace Api2Word.Parser
         public String Description { get; set; }
     }
 
-    public class Response {
-
+    public class Response
+    {
         public List<Header> Header { get; set; }
         public String Name { get; set; }
         public String Status { get; set; }
@@ -83,19 +85,34 @@ namespace Api2Word.Parser
         public String Body { get; set; }
     }
 
-    public class Item2
+    public class Item
     {
         public string Name { get; set; }
         public string _postman_id { get; set; }
         public ProtocolProfileBehavior ProtocolProfileBehavior { get; set; }
         public Request Request { get; set; }
         public List<Response> Response { get; set; }
+        public List<Event> @event { get; set; }
+        public List<Item> item { get; set; }
     }
 
-    public class Item
+    public class Event
+    {
+        public String listen { get; set; }
+        public Script script { get; set; }
+    }
+
+    public class Script
+    {
+        public String Id { get; set; }
+        public String Type { get; set; }
+        public List<String> Exec { get; set; }
+    }
+
+    public class Item2
     {
         public string Name { get; set; }
-        public List<Item2> item { get; set; }
+        public List<Item> item { get; set; }
         public string _postman_id { get; set; }
         public string Description { get; set; }
     }
