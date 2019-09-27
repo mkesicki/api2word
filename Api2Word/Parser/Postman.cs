@@ -93,8 +93,8 @@ namespace Api2Word.Parser
                     {
                         if (env.Name.Equals(Env))
                         {
-                            EnvId = env.Id;
                             Console.WriteLine("Found environment ID: {0}", EnvId);
+                            EnvId = env.Id;
 
                             break;
                         }
